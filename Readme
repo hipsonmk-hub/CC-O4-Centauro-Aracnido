@@ -1,0 +1,6 @@
+### Embudo de Recarga R2F (Rapid Refill) y Válvula Dry-Break (`nexus_r2f_drybreak_funnel.scad`)
+El núcleo logístico de las operaciones de superficie y de la variante terrestre NEXUS SHELL. Permite la transferencia de fluidos o agente bloqueador a alto caudal (45 L/min) en laderas irregulares sin necesidad de precisión milimétrica.
+
+*   **Guía Cónica de Tolerancia Amplia:** El diseño del embudo compensa las desalineaciones físicas entre el brazo del robot logístico y la unidad de vanguardia durante operaciones en pendiente.
+*   **Purga Neumática Pre-Contacto:** Incorpora un anillo perimetral con 8 inyectores (`purge_hole_dia = 2.5`) diseñados para disparar un soplado de aire a 8 bar milisegundos antes del acoplamiento físico.
+*   **Operación Anti-Contaminación:** Este sistema expulsa ceniza incandescente o regolito lunar abrasivo del área de la junta tórica, garantizando un sellado hermético en condiciones de visibilidad cero sin contaminar los depósitos internos.
