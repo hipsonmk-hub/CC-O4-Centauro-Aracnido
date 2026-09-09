@@ -1,0 +1,96 @@
+// CC-O4 NEXUS Z-MODULE — Nodo Sacrificial de Energía y Comunicaciones
+// Licencia: CERN-OHL-S v2
+// Desarrollador: David Dorado Blázquez Moraleda López (@Hipsonmk)
+//
+// Descripción: Chasis paramétrico para el módulo de comunicaciones (LoRa SX1262), 
+// almacenamiento (SSD M.2 2230) y pila termoeléctrica (Zn-Air / membrana GPE).
+// Factor de forma inspirado en las proporciones de un dispositivo plegable cerrado.
+
+/* [Dimensiones Globales del Chasis] */
+module_width = 72.0;
+module_length = 85.0;
+module_height = 16.0;
+wall_th = 2.4;
+corner_radius = 5.0;
+
+/* [Dimensiones de Componentes (Hardware Real)] */
+ssd_w = 22.0;
+ssd_l = 30.0;
+lora_w = 35.0;
+lora_l = 55.0;
+zn_air_h = 5.0; // Espesor del bloque Zinc-Aire + GPE
+
+$fn = 60;
+
+// --- Funciones Auxiliares ---
+module rounded_box(w, l, h, r) {
+    hull() {
+        translate([-w/2+r, -l/2+r, 0]) cylinder(r=r, h=h);
+        translate([ w/2-r, -l/2+r, 0]) cylinder(r=r, h=h);
+        translate([-w/2+r,  l/2-r, 0]) cylinder(r=r, h=h);
+        translate([ w/2-r,  l/2-r, 0]) cylinder(r=r, h=h);
+    }
+}
+
+// --- Subsistema de Energía (Cámara Zn-Air) ---
+module zn_air_cavity() {
+    // Cavidad inferior ventilada para la oxidación del nodo de Zinc
+    translate([0, 0, wall_th])
+        rounded_box(module_width - wall_th*2, module_length - wall_th*2, zn_air_h, corner_radius-1);
+}
+
+// --- Subsistema Digital (PCB LoRa y SSD M.2) ---
+module digital_cavity() {
+    // Plataforma superior aislada del nodo químico
+    z_offset = wall_th + zn_air_h + 1.5; // 1.5mm de pared separadora interior
+    
+    // Hueco principal para electrónica
+    translate([0, 0, z_offset])
+        rounded_box(module_width - wall_th*2, module_length - wall_th*2, module_height - z_offset, corner_radius-1);
+    
+    // Pilares de montaje M2 para SSD 2230
+    translate([-module_width/4, 0, z_offset]) {
+        cylinder(d=4, h=2); // Soporte base
+        cylinder(d=1.8, h=6); // Pin de inserción para tornillo M2
+    }
+}
+
+// --- Chasis Principal ---
+module nexus_z_module_shell() {
+    difference() {
+        // Bloque exterior
+        rounded_box(module_width, module_length, module_height, corner_radius);
+        
+        // Vaciado de cavidades
+        zn_air_cavity();
+        digital_cavity();
+        
+        // Rejillas de respiración para el nodo Zn-Air (lateral)
+        for (i = [-20 : 5 : 20]) {
+            translate([module_width/2 - 2, i, wall_th + zn_air_h/2])
+                rotate([0, 90, 0])
+                cylinder(d=2.5, h=5, center=true);
+                
+            translate([-module_width/2 + 2, i, wall_th + zn_air_h/2])
+                rotate([0, 90, 0])
+                cylinder(d=2.5, h=5, center=true);
+        }
+        
+        // Puerto de purga / conexión umbilical R2F (frontal)
+        translate([0, module_length/2 - 2, module_height/2])
+            rotate([90, 0, 0])
+            cylinder(d=6.0, h=5, center=true);
+    }
+    
+    // Separador interno (impreso en el lugar)
+    translate([0, 0, wall_th + zn_air_h])
+        difference() {
+            rounded_box(module_width - wall_th*2, module_length - wall_th*2, 1.5, corner_radius-1);
+            // Pasacables interno
+            translate([module_width/3, module_length/3, -1])
+                cylinder(d=4.5, h=4);
+        }
+}
+
+// Renderizar pieza
+color([0.15, 0.15, 0.15]) nexus_z_module_shell();
