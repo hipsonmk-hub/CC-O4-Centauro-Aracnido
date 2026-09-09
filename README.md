@@ -61,3 +61,30 @@ Integra:
 - Instalación de paneles solares
 - Detalles mecánicos y close-ups
 - 
+Copyright (c) 2026 David Dorado Blázquez Moraleda López (@Hipsonmk)
+
+This source describes Open Hardware and is licensed under the CERN-OHL-S v2.
+
+You may redistribute and modify this source and make products using it under the terms of the CERN-OHL-S v2 (https://ohwr.org/cern_ohl_s_v2.txt).
+This source is distributed WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING OF MERCHANTABILITY, SATISFACTORY QUALITY AND FITNESS FOR A PARTICULAR PURPOSE. Please see the CERN-OHL-S v2 for applicable conditions.
+
+Source location: https://github.com/hipsonmk-hub/CC-O4-Centauro-Aracnido
+
+As per CERN-OHL-S v2 section 4, should you produce hardware based on this source, you must maintain the Creator's attribution and provide access to the modifications under the same license.
+## ⚙️ Arquitectura Paramétrica y Hardware Abierto
+
+El núcleo mecánico de la plataforma CC-O4 está diseñado bajo un paradigma paramétrico en **OpenSCAD**, garantizando su replicabilidad y adaptabilidad para misiones terrestres (NEXUS SHELL) y aeroespaciales.
+
+### Nodo de Articulación Principal (`cc_o4_joint_624zz.scad`)
+El primer módulo liberado establece el estándar de tolerancia termomecánica para las extremidades del octópodo. 
+
+*   **Material Especificado:** PETG-CF (Fibra de carbono). Impresión orientada en el eje Z local (eje de bisagra) para evitar delaminación bajo carga.
+*   **Hardware COTS:** Utiliza rodamientos 624ZZ (4x13x5) ajustados a presión (tolerancia `bearing_od_fit = 0.20`).
+*   **Diseño Antidesgaste:** Implementa un eje de vástago liso de 4mm, evitando la fricción de hilos de rosca contra la pista interior del rodamiento.
+*   **Retención Mecánica:** Sistema de tuerca cautiva DIN 934 insertada bajo el cajeado del rodamiento superior, garantizando integridad frente a vibraciones extremas o ciclos térmicos.
+
+## ⚖️ Autoría y Licencia
+
+Este proyecto es Hardware Abierto. Toda la arquitectura, diseño conceptual (CC-O4 y variantes NEXUS), lógica de control termodinámico (Galinstano) y scripts paramétricos son propiedad intelectual de **David Dorado Blázquez Moraleda López (@Hipsonmk)**. 
+
+Distribuido bajo la licencia fuertemente recíproca **CERN-OHL-S v2**. Cualquier bifurcación, uso comercial, desarrollo estatal o derivación técnica debe hacer pública su arquitectura modificada y atribuir la autoría original de forma visible.
