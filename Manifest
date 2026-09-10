@@ -1,0 +1,13 @@
+ MANUAL DEL OPERADOR · ECOSISTEMA CC-O4
+​Estado de Planta: Arquitectura Sellada | Licencia: CERN-OHL-S v2 | Autor: @Hipsonmk
+​Este repositorio no contiene un robot de exhibición. Contiene la planimetría paramétrica y el firmware de control para una infraestructura logística de supervivencia. El proyecto CC-O4 Centauro-Arácnido y sus subsistemas están diseñados como un ancla operativa contra la dependencia tecnológica: hardware duro, auditable y ensamblable por un operador aislado en entornos extremos.
+​1. Arquitectura del Sistema
+​El ecosistema se divide en tres bloques funcionales de código abierto:
+​Plataforma CC-O4: Chasis robótico (hexápodo/octópodo) con anillos de acoplamiento de torso modulares y patas de anclaje híbrido piezoeléctrico. Gobernado por el Ancla Lógica para asegurar la tracción en inclinaciones críticas.
+​Módulo Logístico NEXUS-L: Brazo manipulador cinemático equipado con rutinas RTOS de telemetría activa (IMU a 100 Hz). Diseñado para el trasiego de cargas pesadas y reabastecimiento en caliente (Hot-Swap) sin intervención de la nube.
+​Núcleo Energético SKUNX-AL-AIR-02: Cartucho termodinámico metal-aire (Al-Air). Un bloque autoescalable de 5.0 kg de Aluminio y 2.0 L de KOH, con conductos M20 físicos separados para bloqueo estructural y alivio de presión/escoria.
+​2. Doctrina de Ensamblaje y Taller (No Black Boxes)
+​Cero Tolerancia a Cajas Cerradas: Todas las piezas mecánicas están modeladas en OpenSCAD. Puedes (y debes) auditar, recompilar y modificar la geometría para ajustarla a las tolerancias de tu impresora 3D (PETG-CF recomendado).
+​Seguridad Física Integrada: Las máquinas de estados (FSM) de los actuadores incluyen interlocks de hardware puro. El brazo NEXUS-L abortará cualquier maniobra si el chasis supera los 35° de inclinación.
+​3. Manifiesto de Despliegue
+​Cualquier operador puede replicar, operar y bifurcar esta tecnología. La licencia CERN-OHL-S v2 garantiza que cualquier mejora en la resistencia, estequiometría o eficiencia mecánica que desarrolles deba volver al dominio público. Colonizar el vacío operativo depende de que la red de operadores comparta sus herramientas de supervivencia.
