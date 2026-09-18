@@ -1,0 +1,73 @@
+# CC-O4 Centauro-Arácnido
+**Infraestructura Logística y Robótica de Código Abierto (Soberanía Táctica y Cognitiva)**
+
+[![License: CERN-OHL-S v2](https://img.shields.io/badge/License-CERN--OHL--S_v2-blue.svg)](https://ohwr.org/cernohl)
+[![Status: Prototipado / I+D](https://img.shields.io/badge/Status-I%2BD-orange.svg)]()
+[![Inferencia: 100% Local](https://img.shields.io/badge/Inferencia-127.0.0.1-green.svg)]()
+
+El **CC-O4 Centauro-Arácnido** es una plataforma robótica paramétrica diseñada en OpenSCAD para operar al margen del ecosistema corporativo de suscripción (RaaS - *Robot as a Service*). No requiere conexión a la nube, no envía telemetría a servidores de terceros y no depende de cajas negras.
+
+El diseño prioriza la tracción omnidireccional (base octópoda) sobre el ineficiente bipedismo humanoide, integrando un torso modular (brazo NEXUS-L) para manipulación de carga. Creado para misiones logísticas, extinción de incendios en zonas críticas y despliegue en el Vacío.
+
+---
+
+## 🛑 El Protocolo: Cero Telemetría, Cero Peaje
+La industria avanza hacia modelos de negocio donde el hardware físico es un terminal cautivo de un oráculo en la nube (50.000$/año por operador robótico). El CC-O4 rompe esa dependencia mediante una **pila de inferencia local estricta (`127.0.0.1`)**. Si se corta la red, el robot sigue caminando, viendo y decidiendo.
+
+---
+
+## 🧠 Arquitectura de Sistemas (Computación por Capas)
+
+No existe un "cerebro único". El sistema distribuye la carga térmica y cognitiva en tres capas aisladas para garantizar la supervivencia del chasis frente a latencias y alucinaciones estadísticas.
+
+### 1. Capa de Supervivencia (Nervio Motor / Tiempo Real)
+*   **Hardware:** Microcontrolador (MCU) dedicado.
+*   **Función:** Cinemática inversa, PID de motores, control de bombas, estabilización.
+*   **Software:** `nexus-rt`. C/C++ puro. Ciclo de trabajo en milisegundos.
+*   **Regla:** El MCU **nunca** lee JSON ni espera respuestas de un LLM. 
+
+### 2. Capa Táctica Autónoma (Cerebro de Campo)
+*   **Hardware:** Jetson Orin Nano Super (~25W de TDP máximo).
+*   **Función:** Visión espacial, SLAM y ejecución de la lógica determinista + LLM pequeño.
+*   **Software:** `nexus-supervisor` (alta prioridad) y `nexus-llm` (baja prioridad, asíncrono).
+*   **Inferencia:** Modelo de 1–4B parámetros (Qwen/Gemma en formato GGUF) sirviendo respuestas estructuradas vía API compatible local.
+
+### 3. Capa Estratégica (Nodo Base - Fuera del chasis)
+*   **Hardware:** Mac Studio M4 / Rig RTX 4090/5090.
+*   **Función:** Auditoría, telemetría pesada, modelos de 27B-70B para planificación de rutas complejas o reescritura de código OpenSCAD.
+*   **Regla:** El nodo pesado nunca va atornillado al chasis.
+
+---
+
+## ⚡ Comunicación y Control: El Muro Binario
+
+El CC-O4 no utiliza ROS 2 para la capa de supervivencia ni manda párrafos de texto por el cable.
+
+*   **Bus de Datos (CAN-FD):** Telemetría, consignas y *heartbeats* a 1-5 Mbps. Tramas binarias estrictas (`magic`, `t_us`, `code`, `payload`, `crc16`). IDs bajos para alta prioridad.
+*   **Línea de Pánico (GPIO IRQ):** Un pin físico conecta el MCU con el Orin. Un flanco de bajada indica: *"Lee el bus CAN ahora mismo"*. El Orin no desperdicia ciclos haciendo *polling*.
+
+### Jerarquía de Decisión y Timeout
+El LLM no pilota el robot, es un estratega consultivo. Si el MCU lanza un código `0x1102 TRACTION_LOSS_REPEAT`, el `nexus-supervisor` arma un JSON de estado y consulta al `nexus-llm` forzando una gramática cerrada (enum + float).
+> **Failsafe Crítico:** Si el LLM tarda más de **400 ms** en devolver un JSON válido, el supervisor aborta la inferencia y aplica la política de supervivencia del MCU (ej. `HOLD` o `ABORT`). El oráculo estadístico no tiene poder de veto sobre la gravedad.
+
+---
+
+## ⚙️ Hardware Físico y Termodinámica
+
+*   **Chasis:** Diseñado en OpenSCAD. Pensado para impresión en **PETG-CF** (resistencia térmica y mecánica) y Kevlar.
+*   **Articulaciones:** Rodamientos 624ZZ estándar industrial.
+*   **Energía (Fase 1 - Prototipado):** Pack de Li-ion industrial + reguladores DC-DC blindados.
+*   **Energía (Fase 2 - I+D):** Cartucho termodinámico intercambiable **SKUNX-AL-AIR-02** (Aluminio-Aire con electrolito KOH). Alta densidad energética primaria; sin cables de recarga, el ánodo se sustituye como munición logística.
+
+---
+
+## 📜 Licencia
+
+Este proyecto se distribuye bajo la licencia **CERN Open Hardware Licence Version 2 - Strongly Reciprocal (CERN-OHL-S v2)**.
+Eres libre de estudiar, modificar, fabricar y vender este hardware. Sin embargo, cualquier modificación o iteración del diseño físico debe distribuirse bajo esta misma licencia abierta. No se permite empaquetar este chasis en una caja negra propietaria.
+
+---
+**Operador:** David Dorado Blázquez (@hipsonmk)
+**Origen:** Nodo Móstoles (Madrid)
+**Destino:** El asfalto, los incendios, el Vacío.
+
