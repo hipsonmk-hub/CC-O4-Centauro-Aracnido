@@ -1,0 +1,18 @@
+cc04-nexus-shell/
+├── README.md
+├── core/
+│   ├── CC04_W0_ICD.md                # Frontera invariante: Ø220, PCD 190, 52V, Watchdog 50ms
+│   └── kinematics_octopod.scad       # Geometría base de patas y torso (agnóstica al material)
+├── profiles/
+│   ├── env_profiles.scad             # Selector maestro: "MOSTOLES" | "ORBITA" | "MONTE"
+│   └── limits_env.md                 # Matriz de corte térmico, pares de apriete y materiales
+├── cad/
+│   ├── chassis_w0_flange.scad        # Importa env_profiles.scad para tolerancias y espesores
+│   ├── leg_actuator_housing.scad     # Añade escudo ablativo o MLI según el perfil activo
+│   └── f0_footwear/                  # Línea paralela Fase 0 (Nodo Móstoles, 1 g)
+│       ├── CC04_F0_Piezo_Calzado_ICD.md
+│       ├── CC04_F0_piezo_capsule.scad
+│       └── CC04_F0_banco_protocolo.md
+└── hardware/
+    ├── watchdog_ancla_hw.sch         # Corte físico de ENABLE por hardware
+    └── f0_piezo_ltc3588_rev02.sch    # Esquemático recolector 5.0 V con TVS en PZ1-PZ2
